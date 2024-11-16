@@ -1,0 +1,132 @@
+[
+    {
+        "index": 0,
+        "bounding_box": {
+            "x1": 631,
+            "y1": 0,
+            "x2": 985,
+            "y2": 712
+        },
+        "confidence": 0.71,
+        "label": "remote",
+        "text": "JuiCE BLEJI Wth Wine cohcural fLnors 70 CllL 8410204B ml IZZE SPARKLING BLACKBERRY BEVERAGE [unbred CONCENTRATE ",
+        "image_path": "detected_objects/object_0.png"
+    },
+    {
+        "index": 1,
+        "bounding_box": {
+            "x1": 622,
+            "y1": 0,
+            "x2": 975,
+            "y2": 716
+        },
+        "confidence": 0.74,
+        "label": "remote",
+        "text": " JUICE BEVERAGE BLEN FRoM CONCENTRATE Wth OIHER MATURAL FLAvORS 70 CACI M4ELOZ (404 IZZE SPARKLING BLACKBERRY auncred",
+        "image_path": "detected_objects/object_1.png"
+    },
+    {
+        "index": 2,
+        "bounding_box": {
+            "x1": 621,
+            "y1": 0,
+            "x2": 978,
+            "y2": 715
+        },
+        "confidence": 0.68,
+        "label": "remote",
+        "text": ") JUICE BEVERAGE Blerd WITH FROM NATURAL 70 84FL02(248 mL CIAL IZZE SPARKLING BLACKBERRY Mvored CONCENTRATE FLAVORS OTHER Icubar",
+        "image_path": "detected_objects/object_2.png"
+    },
+    {
+        "index": 3,
+        "bounding_box": {
+            "x1": 622,
+            "y1": 0,
+            "x2": 976,
+            "y2": 715
+        },
+        "confidence": 0.71,
+        "label": "remote",
+        "text": "BEVERAGE BLEHD WITh OTHER MATURAL 70 84FL020248 mL IODLO ntimcin IZZE SPARKLING BLACKBERRY juice fuavored ICONCENTRATE  TRoM { flavors Icalanu",
+        "image_path": "detected_objects/object_3.png"
+    },
+    {
+        "index": 4,
+        "bounding_box": {
+            "x1": 640,
+            "y1": 1,
+            "x2": 992,
+            "y2": 710
+        },
+        "confidence": 0.75,
+        "label": "remote",
+        "text": "Juice BEVERACE ELER) MMh OTHER HaTuraL FLavoRS 70 Eud U1l02,p248 ml) IZZE SPARKLING BLACKBERRY aathed COMCEKTRATE Fromt",
+        "image_path": "detected_objects/object_4.png"
+    },
+    {
+        "index": 5,
+        "bounding_box": {
+            "x1": 632,
+            "y1": 0,
+            "x2": 981,
+            "y2": 710
+        },
+        "confidence": 0.57,
+        "label": "remote",
+        "text": "JuIGe BEVERAGE BLERD FROM CONCENTRATE Votk NATURAL FlAvORS 70 ciu A41LOZ Q248mN IZZE SPARKLING BLACKBERRY nunored OTHER !",
+        "image_path": "detected_objects/object_5.png"
+    },
+    {
+        "index": 6,
+        "bounding_box": {
+            "x1": 635,
+            "y1": 4,
+            "x2": 983,
+            "y2": 712
+        },
+        "confidence": 0.32,
+        "label": "cell phone",
+        "text": "JuIGe BEVERAGE BLERD FROM CONCENTRATE Votk NATURAL FlAvORS 70 ciu A41LOZ Q248mN IZZE SPARKLING BLACKBERRY nunored OTHER !",
+        "image_path": "detected_objects/object_6.png"
+    },
+    {
+        "index": 7,
+        "bounding_box": {
+            "x1": 637,
+            "y1": 0,
+            "x2": 991,
+            "y2": 713
+        },
+        "confidence": 0.67,
+        "label": "remote",
+        "text": "SPARKLING  JUICe BEVERAGE BLEHD Fox CONCENTRATE Wth Otker NATURAL FlavoRs 70 84FL02 (248 mL| c IZZE BLACKBERRY Fuored Icnng",
+        "image_path": "detected_objects/object_7.png"
+    },
+    {
+        "index": 8,
+        "bounding_box": {
+            "x1": 651,
+            "y1": 0,
+            "x2": 1006,
+            "y2": 710
+        },
+        "confidence": 0.72,
+        "label": "remote",
+        "text": "JUcE BEVERACE Elen) CONCENTRATE Wmth Matural flavors 70 M01 @unu IZZE SPARKLING BLACKBERRY aereD FROM [ dinc?",
+        "image_path": "detected_objects/object_8.png"
+    },
+    {
+        "index": 9,
+        "bounding_box": {
+            "x1": 649,
+            "y1": 0,
+            "x2": 1004,
+            "y2": 701
+        },
+        "confidence": 0.7,
+        "label": "remote",
+        "text": "NICE BEVERANI RLed ICUNCENTRNELi O5 NjuR FLM $ 70 Mr OZ Qacu IZZE SPARKLING BLACKBERRY ad Fu",
+        "image_path": "detected_objects/object_9.png"
+    }
+]
