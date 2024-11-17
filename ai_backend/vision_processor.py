@@ -6,14 +6,14 @@ import numpy as np
 import json
 from collections import Counter
 import re
-import platform  # Added for platform detection
-import time  # Added for saving annotated frames with timestamps
+import platform
+import time
 
 class VisionProcessor:
     def __init__(self):
         self.reader = easyocr.Reader(['en'])
         self.model = YOLO("yolov8n-seg.pt")
-        self.model.overrides["conf"] = 0.5
+        self.model.overrides["conf"] = 0.5  # Base confidence threshold
         self.model.overrides["iou"] = 0.5
         self.output_dir = "detected_objects"
         self.HUMAN_COLOR = (0, 255, 0)
@@ -22,18 +22,18 @@ class VisionProcessor:
         # Ensure output directory exists
         os.makedirs(self.output_dir, exist_ok=True)
 
-    def process_objects(self, max_objects=10):
-        """Main processing loop to detect and analyze objects"""
+    def process_objects(self, confidence_threshold=0.60):
+        """Main processing loop to detect and analyze objects until finding one with sufficient confidence"""
         cap = cv2.VideoCapture(0)
         if not cap.isOpened():
             raise Exception("Cannot access webcam")
 
         objects_data = []
-        object_index = 0
-        non_human_count = 0
+        max_attempts = 100  # Maximum number of frames to process
+        attempt = 0
 
         try:
-            while non_human_count < max_objects:
+            while attempt < max_attempts:
                 ret, frame = cap.read()
                 if not ret:
                     break
@@ -44,19 +44,20 @@ class VisionProcessor:
 
                 # Process non-human objects
                 for mask, bbox, confidence, label in non_human_objects:
-                    if non_human_count >= max_objects:
-                        break
+                    # Check if confidence meets our threshold
+                    if confidence > confidence_threshold:
+                        # Process this high-confidence object
+                        object_data = self._process_single_object(
+                            frame, mask, bbox, confidence, label, 0
+                        )
+                        if object_data:
+                            objects_data = [object_data]  # Keep only this result
+                            # Save frame with detection
+                            self._save_detection_frame(frame, results[0])
+                            return objects_data  # Exit immediately after finding a good match
 
-                    # Process individual object
-                    object_data = self._process_single_object(
-                        frame, mask, bbox, confidence, label, object_index
-                    )
-                    if object_data:
-                        objects_data.append(object_data)
-                        object_index += 1
-                        non_human_count += 1
-
-                # Save frame instead of displaying for debugging on macOS
+                attempt += 1
+                # Save frame for debugging
                 self._display_frame(frame, results[0])
 
                 if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -66,7 +67,7 @@ class VisionProcessor:
             cap.release()
             cv2.destroyAllWindows()
 
-        return objects_data
+        return objects_data  # Will be empty if no high-confidence detection was found
 
     def _get_non_human_objects(self, result):
         """Extract non-human objects from YOLO results"""
@@ -102,7 +103,8 @@ class VisionProcessor:
                 "confidence": round(float(confidence), 2),
                 "label": label,
                 "text": extracted_text,
-                "image_path": object_path
+                "image_path": object_path,
+                "timestamp": int(time.time())
             }
         except Exception as e:
             print(f"Error processing object {index}: {str(e)}")
@@ -120,6 +122,15 @@ class VisionProcessor:
         
         return output_path
 
+    def _save_detection_frame(self, frame, result):
+        """Save the frame where the high-confidence detection was found"""
+        try:
+            annotated_frame = result.plot()
+            output_path = os.path.join(self.output_dir, f"detection_frame_{int(time.time())}.jpg")
+            cv2.imwrite(output_path, annotated_frame)
+        except Exception as e:
+            print(f"Error saving detection frame: {str(e)}")
+
     def _extract_text(self, image_path):
         """Extract text from image using EasyOCR"""
         try:
@@ -136,7 +147,6 @@ class VisionProcessor:
             if platform.system() == "Darwin":  # Save instead of displaying on macOS
                 output_path = os.path.join(self.output_dir, f"processed_frame_{int(time.time())}.jpg")
                 cv2.imwrite(output_path, annotated_frame)
-                print(f"Saved annotated frame to {output_path}")
             else:
                 cv2.imshow("Object Detection", annotated_frame)
                 cv2.waitKey(1)
@@ -146,22 +156,13 @@ class VisionProcessor:
     def save_results(self, objects_data, output_file="vision_output.json"):
         """Save processing results to file"""
         try:
+            # Ensure we only save one result
+            if objects_data and len(objects_data) > 1:
+                objects_data = [objects_data[0]]
+                
             with open(output_file, 'w') as f:
                 json.dump(objects_data, f, indent=4)
             return True
         except Exception as e:
             print(f"Error saving results: {str(e)}")
             return False
-
-    def create_text_corpus(self, objects_data):
-        """Create text corpus from extracted texts"""
-        texts = [obj["text"] for obj in objects_data if obj["text"]]
-        all_text = " ".join(texts)
-        all_text = re.sub(r'[^a-zA-Z\s]', '', all_text.lower())
-        words = all_text.split()
-        word_counts = Counter(words)
-        
-        return {
-            "corpus": " ".join([word for word, count in word_counts.items() if count >= 2]),
-            "word_frequencies": dict(word_counts)
-        }
